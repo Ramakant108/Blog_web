@@ -1,0 +1,15 @@
+.custom-btn {
+    border: none;
+    background: none;
+    color: inherit;
+  }
+  
+  .custom-btn:hover {
+    background-color: blue;
+  }
+  
+  .custom-btn.active {
+    background-color: blue;
+    color: white; /* Optional: Change text color when active */
+  }
+  
