@@ -13,6 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { auth } from './firebaseAuth';
 import { onAuthStateChanged } from "firebase/auth";
+import Detail from './Pages/Detail';
 
 function App() {
    const navigate=useNavigate();
@@ -30,16 +31,18 @@ function App() {
           })
           
     },[])
-    console.log(Puser)
+   
   return (
     <div>
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
         {Puser?.uid?<Header user={Puser}/>:<></>}
         <Routes>
         <Route path='/' element={<Home user={Puser}/>}/>
+        <Route path='/detail/:id' element={<Detail/>}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/auth' element={<Auth/>}/>
-        <Route path='/crateblog' element={<CreateAditblog user={Puser} />}/>
+        <Route path='/createblog' element={<CreateAditblog user={Puser} />}/>
+        <Route path='/update/:id' element={<CreateAditblog user={Puser} />}/>
         <Route path='*' element={<Notfound/>}/>
        </Routes>
     </div>

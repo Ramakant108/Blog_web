@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { db} from "../firebaseAuth";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 const initialState = {
   title: "",
   tags: [],
@@ -24,11 +24,11 @@ const categoryOption = [
 const CreateAditBlog = ({user}) => {
   const [formData, setFormData] = useState(initialState);
   const [file, setFile] = useState(null);
-  const [imgurl,setImgurl]=useState("");
+  // const [imgurl,setImgurl]=useState("");
   const [currentTag, setCurrentTag] = useState("");
   // const [loading,setLoading]=useState(null)
   // const [state,setState]=useState("");
-
+  const {id}=useParams();
   const navigate=useNavigate()
 
 
@@ -46,14 +46,22 @@ useEffect(()=>{
       body:data
     });
     const downloadurl=await res.json();
-    console.log(downloadurl.secure_url)
-    setImgurl(downloadurl.secure_url)
-    // setFormData({...formData,imgURL:downloadurl.url})
+    // console.log(downloadurl.secure_url)
+    // setImgurl(downloadurl.secure_url)
+    setFormData({...formData,imgUrl:downloadurl.secure_url})
 }
  file&&uploadfile()
 },[file])
  
-
+  useEffect(()=>{
+    if(!id) return;
+     user&&getBlogDetail();
+  },[id])
+   
+  const getBlogDetail=async()=>{
+    const blogdetail=await getDoc(doc(db,"Blog",id));
+    setFormData({...blogdetail.data()})
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));  
@@ -71,7 +79,6 @@ useEffect(()=>{
       }
     }
   };
-
   // Handle removing tags
   const handleRemoveTag = (tagToRemove) => {
     setFormData((prevData) => ({
@@ -82,22 +89,50 @@ useEffect(()=>{
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    try {
-      if(formData.title&&formData.category&&formData.isTrending&&formData.tags&&formData.description&&file){
+   
+   
+      if(formData.title&&formData.category&&formData.isTrending&&formData.tags&&formData.description){
+        if(!id){
+          try {
+            if(!file){
+              toast.info("Image is mandatory")
+              return
+            }
+            await addDoc(collection(db,"Blog"),{
+              ...formData,
+            
+              timestamp: serverTimestamp(),
+              author: user.displayName,
+              userId: user.uid,
+             })
+             
+             toast.success("Blog created Successfuly")
+          }
+          catch (error) {
+            toast.error(error.code)
+            console.log(error)
+          }
+        }
+        else{
+          try {
+            await updateDoc(doc(db,"Blog" ,id),{
+              ...formData,
+              timestamp: serverTimestamp(),
+              author: user.displayName,
+              userId: user.uid,
+             })
+             
+             toast.success("Blog Updated Successfuly")
+          }
+          catch (error) {
+            toast.error(error.code)
+            console.log(error)
+          }
+        }
         
-         await addDoc(collection(db,"Blog"),{
-          ...formData,
-          imgUrl:imgurl,
-          timestamp: serverTimestamp(),
-          author: user.displayName,
-          userId: user.uid,
-         })
-         
-         toast.success("Blog created Successfuly")
-      }
-    } catch (error) {
-      toast.error(error.code)
-      console.log(error)
+    } 
+    else{
+      toast.error("all fild are mandatory")
     }
     navigate('/')
   };
@@ -240,7 +275,6 @@ useEffect(()=>{
             id="file"
             onChange={(e) => setFile(e.target.files[0])}
             className="form-control"
-            required
           />
         </div>
 

@@ -346,6 +346,7 @@ $yellow:#f5bc04;
 .tags > a {
     text-decoration: none;
 }
+
 .tag {
 	background: #f1f1f1;
 	padding: 10px 15px;
@@ -356,6 +357,7 @@ $yellow:#f5bc04;
 	margin-bottom: 5px;
 	display: inline-block;
 }
+
 .tag:hover, .tag:focus {
 	background: $yellow;
 	color: #fff;
@@ -392,7 +394,7 @@ $yellow:#f5bc04;
 }
 .trending-img-size > img {
 	height: 340px;
-	min-width: 100%;
+	width: 100%;
 }
 
 .trending-img-relative {

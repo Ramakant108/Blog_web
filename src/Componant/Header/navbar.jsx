@@ -3,6 +3,7 @@ import { Navbar, Nav, Button, Image } from 'react-bootstrap';
 import './Header.css';
 import { logout } from '../../firebaseAuth';
 import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Header = ({user}) => {
   const [activeButton, setActiveButton] = useState('Home');
@@ -16,29 +17,35 @@ const Header = ({user}) => {
       <Navbar.Toggle aria-controls="navbarNav" />
 
       {/* Left Side - Buttons with Conditional Active Styling */}
+      <NavLink to={'/'} className="nav-link">
       <Button
         variant="outline-secondary"
-        className={`me-3 custom-btn ${activeButton === 'Home' ? 'active' : ''}`}
+        className=" custom-btn"
         onClick={() => handleButtonClick('Home')}
       >
         Home
       </Button>
-      <Link to='/crateblog'>
+      </NavLink>
+     
+      <NavLink to='/createblog' className="nav-link">
       <Button
         variant="outline-secondary"
-        className={`me-3 custom-btn ${activeButton === 'Create' ? 'active' : ''}`}
+        className=" custom-btn"
         onClick={() => handleButtonClick('Create')}
       >
         Create
       </Button>
-      </Link>
+      </NavLink>
+      <NavLink to={'/about'} className="nav-link">
       <Button
         variant="outline-secondary"
-        className={`me-3 custom-btn ${activeButton === 'About' ? 'active' : ''}`}
+        className="me-3 custom-btn"
         onClick={() => handleButtonClick('About')}
       >
         About
       </Button>
+      </NavLink>
+    
 
       {/* Right Side - Profile Image & Logout */}
       <Navbar.Collapse className="justify-content-end">

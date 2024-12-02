@@ -2,14 +2,23 @@
     border: none;
     background: none;
     color: inherit;
+    
   }
   
   .custom-btn:hover {
-    background-color: blue;
+    background-color:#f5bc04;
   }
   
-  .custom-btn.active {
-    background-color: blue;
-    color: white; /* Optional: Change text color when active */
+  .nav-link.active {
+    background-color: #f5bc04;
+    color: white;
+    border-radius: 6px;
+    width: 67.55px; 
+    margin: 0px 8px;/* Optional: Change text color when active */
+  }
+
+  .nav-link{
+    text-decoration: none;
+    color: black;
   }
   

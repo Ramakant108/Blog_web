@@ -2,10 +2,11 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'; 
 import shortdes from '../utility/helping';
+import { Link } from 'react-router-dom';
 
 
 
-const BlogSection = ({ blogs, user }) => {
+const BlogSection = ({ blogs, user ,handledelete}) => {
   return (
     <div>
       <div className="blog-heading mb-4 py-2 text-start ">Daily blog</div>
@@ -31,19 +32,30 @@ const BlogSection = ({ blogs, user }) => {
              <div className="short-description">
               {shortdes(blog.description,120)}
              </div>
+             <Link to={`/detail/${blog.id}`}> 
              <button className='btn btn-read'>Read More</button>
-             <div className='d-flex aline-items-center' style={{float:"right"}}>
-             <FontAwesomeIcon
-                icon={faTrash}
-                style={{ margin: "13px",cursor:"pointer"}}
-                size="1x"
-              />
-              <FontAwesomeIcon
-                icon={faEdit}
-                style={{margin:"13px",cursor:"pointer"}}
-                size="1x"
-              />
-             </div>
+             </Link>
+             {user?.uid&&blog.userId===user.uid&&(
+                <div className='d-flex aline-items-center' style={{float:"right"}}>
+                <FontAwesomeIcon
+                   icon={faTrash}
+                   className='fa-trash'
+                   style={{ margin: "13px",cursor:"pointer"}}
+                   size="1x"
+                   onClick={()=>handledelete(blog.id)}
+                 />
+                 <Link to={`/update/${blog.id}`}>
+                 <FontAwesomeIcon
+                   icon={faEdit}
+                   className='fa-edit'
+                   style={{margin:"13px",cursor:"pointer"}}
+                   size="1x"
+                 /></Link>
+                 
+                 
+                </div>
+             )}
+            
           </div>
         </div>
       ))}
