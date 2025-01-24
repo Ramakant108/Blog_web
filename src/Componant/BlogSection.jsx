@@ -6,11 +6,10 @@ import { Link } from 'react-router-dom';
 
 
 
-const BlogSection = ({ blogs, user ,handledelete}) => {
+const BlogSection = ({ blog, user ,handledelete}) => {
   return (
     <div>
-      <div className="blog-heading mb-4 py-2 text-start ">Daily blog</div>
-      {blogs.map((blog) => (
+      
         <div className="row pb-4" key={blog.id}>
           <div className="col-md-5">
             <div className="hover-blogs-img">
@@ -58,7 +57,7 @@ const BlogSection = ({ blogs, user ,handledelete}) => {
             
           </div>
         </div>
-      ))}
+     
     </div>
   )
 }

@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+
 import { Navbar, Nav, Button, Image } from 'react-bootstrap';
 import './Header.css';
 import { logout } from '../../firebaseAuth';
-import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
-const Header = ({user}) => {
-  const [activeButton, setActiveButton] = useState('Home');
+const Header = ({user ,setActive}) => {
+ 
 
   const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName);
+    setActive(buttonName);
   };
 
   return (
@@ -17,16 +16,26 @@ const Header = ({user}) => {
       <Navbar.Toggle aria-controls="navbarNav" />
 
       {/* Left Side - Buttons with Conditional Active Styling */}
-      <NavLink to={'/'} className="nav-link">
+      <NavLink to={'/'} className="nav-link" onClick={() => handleButtonClick('home')}>
       <Button
         variant="outline-secondary"
         className=" custom-btn"
-        onClick={() => handleButtonClick('Home')}
+
       >
         Home
       </Button>
       </NavLink>
      
+      <NavLink to={'/blogs'} className="nav-link" >
+      <Button
+        variant="outline-secondary"
+        className=" custom-btn"
+
+      >
+        Blog
+      </Button>
+      </NavLink>
+      
       <NavLink to='/createblog' className="nav-link">
       <Button
         variant="outline-secondary"
@@ -36,17 +45,6 @@ const Header = ({user}) => {
         Create
       </Button>
       </NavLink>
-      <NavLink to={'/about'} className="nav-link">
-      <Button
-        variant="outline-secondary"
-        className="me-3 custom-btn"
-        onClick={() => handleButtonClick('About')}
-      >
-        About
-      </Button>
-      </NavLink>
-    
-
       {/* Right Side - Profile Image & Logout */}
       <Navbar.Collapse className="justify-content-end">
         <Nav>

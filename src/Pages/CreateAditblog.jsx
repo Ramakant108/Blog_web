@@ -10,6 +10,8 @@ const initialState = {
   isTrending: "",
   category: "",
   description: "",
+  comments:[],
+  likes:[]
 };
 
 const categoryOption = [
@@ -26,7 +28,7 @@ const CreateAditBlog = ({user}) => {
   const [file, setFile] = useState(null);
   // const [imgurl,setImgurl]=useState("");
   const [currentTag, setCurrentTag] = useState("");
-  // const [loading,setLoading]=useState(null)
+  const [loading,setLoading]=useState(true)
   // const [state,setState]=useState("");
   const {id}=useParams();
   const navigate=useNavigate()
@@ -48,6 +50,7 @@ useEffect(()=>{
     const downloadurl=await res.json();
     // console.log(downloadurl.secure_url)
     // setImgurl(downloadurl.secure_url)
+
     setFormData({...formData,imgUrl:downloadurl.secure_url})
 }
  file&&uploadfile()
@@ -55,7 +58,9 @@ useEffect(()=>{
  
   useEffect(()=>{
     if(!id) return;
+    
      user&&getBlogDetail();
+     setLoading(false)
   },[id])
    
   const getBlogDetail=async()=>{
@@ -86,6 +91,7 @@ useEffect(()=>{
       tags: prevData.tags.filter((tag) => tag !== tagToRemove),
     }));
   };
+
 
   const handleSubmit = async(e) => {
     e.preventDefault();
